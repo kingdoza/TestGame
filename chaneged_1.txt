@@ -1,0 +1,6 @@
+함수에도 접근지정자 추가
+외부 스크립트에서 접근안하는 public -> [SerializeField] private
+{} 위치 통일
+SpawnManager.EnemyList : GameObject -> Enemy 형식 변환
+플레이어 추적중에는 Think 비활성화
+Think -> Wander 메서드 이름 변경
