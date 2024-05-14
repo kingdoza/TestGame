@@ -544,6 +544,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Enemy: {fileID: 4809016690163823318, guid: 08100b97c6e0c1841b3c729df63841e9, type: 3}
+  EnemyList: []
+  maximumEnemy: 1
   playerRangeDistance: 5
 --- !u!1 &1148674818
 GameObject:
@@ -730,7 +732,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1342566085}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0

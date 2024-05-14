@@ -1,0 +1,2 @@
+플레이어 좀비 충돌 밀림 현상 발생하여
+player / Rigidbody 2D / Body Type : Dynamic -> Kinematic 변경
