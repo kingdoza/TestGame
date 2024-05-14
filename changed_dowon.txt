@@ -1,6 +1,10 @@
-함수에도 접근지정자 추가
-외부 스크립트에서 접근안하는 public -> [SerializeField] private
-{} 위치 통일
-SpawnManager.EnemyList : GameObject -> Enemy 형식 변환
-플레이어 추적중에는 Think 비활성화
-Think -> Wander 메서드 이름 변경
+변경점.
+좀비 추적속도 일정하게 개선
+좀비는 추적모드되면 빨갛게됨
+좀비가 여러번 피격되면 사망
+플레이어가 피격되면 밀리고 여러번 맞으면 사망
+플레이어가 벽에 안막혀서 리지드바디 Kinematic -> Dynamic
+
+예정.
+좀비 죽으면 null참조오류 해결
+플레이어 죽으면 null참조오류 해결

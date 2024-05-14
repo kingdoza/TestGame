@@ -4,11 +4,10 @@ using UnityEngine;
 public class Player : MonoBehaviour {
     private IEnumerator movingRoutine;
     [SerializeField] private float moveSpeed;
-    private const int MaxHealth = 100;
-    private int health = MaxHealth;
-    [SerializeField] private Enemy enemy;
+    [SerializeField] private int life = 5;
     private Gun gun;
     private EnemyDetector enemyDetector;
+    private bool isControllable = true;
 
     private void Start() {
         gun = GetComponent<Gun>();
@@ -22,7 +21,7 @@ public class Player : MonoBehaviour {
     }
 
     private void CheckMoveInput() {
-        if(Input.GetMouseButtonDown(1)) {
+        if(Input.GetMouseButtonDown(1) && isControllable) {
             Vector3 clickPoint = GetMouseWorldPosition();
             StopCoroutine(movingRoutine);
             movingRoutine = MoveTo(clickPoint);
@@ -50,10 +49,27 @@ public class Player : MonoBehaviour {
         return Camera.main.ScreenToWorldPoint(mousePosition);
     }
 
-    private void Hit() {
-        health -= 20;   //게임매니저내의 수치
-        if(health <= 0);
+    public void HitFrom(Transform attackerPos) {
+        --life;
+        StartCoroutine(RunawayFrom(attackerPos));   //맞으면 반대방향으로 잠깐 도망감
+        if(life <= 0) {
             Destroy(gameObject);
             //게임 종료
+        }
+    }
+
+    private IEnumerator RunawayFrom(Transform attackerPos) {
+        StopCoroutine(movingRoutine);
+        isControllable = false;
+        Vector2 runawayDir = (transform.position - attackerPos.position).normalized;
+        Vector2 runawayDestination = (Vector2)transform.position + 4 * runawayDir;
+        float runawayDuration = 0.8f;
+        const float RunawaySpeed = 5f;
+        while(runawayDuration > 0) {
+            transform.position = Vector2.Lerp(transform.position, runawayDestination, RunawaySpeed * Time.deltaTime);
+            runawayDuration -= Time.deltaTime;
+            yield return null;
+        }
+        isControllable = true;
     }
 }

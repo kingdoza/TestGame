@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class EnemyDetector : MonoBehaviour {
     [SerializeField] private List<Enemy> enemies;
-    private float attackRadius;
+    [SerializeField] private float attackRadius;
 
     private void Start() {
         enemies = GameObject.FindGameObjectWithTag("Spawner").GetComponent<SpawnManager>().EnemyList;
-        attackRadius = GetComponent<CircleCollider2D>().radius;
     }
 
     public Enemy GetProximateEnemyInRange() {
