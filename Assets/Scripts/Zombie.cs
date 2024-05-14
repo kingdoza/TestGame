@@ -3,42 +3,57 @@ using System.Collections.Generic;
 using TreeEditor;
 using UnityEngine;
 
-public class EnemyMove : MonoBehaviour
-{
-    [SerializeField]
-    private float loading = 1;
-    Rigidbody2D rigid;
-    public int nextMoveX, nextMoveY;
-    public float playerRangeDistance, speed;
+public class EnemyMove : MonoBehaviour {
+    [SerializeField] private float loading = 1;
+    private Rigidbody2D rigid;
+    [SerializeField] private float playerRangeDistance, speed;
     private Transform target;
+    private bool isFollowingMode = false;
 
-    private void Start()
-    {
+    private void Start() {
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
     }
 
-    void Awake()
-    {
+    private void Awake() {
         rigid = GetComponent<Rigidbody2D>();
-        
-        Invoke("Think", loading);
+        Invoke("Wander", loading);
     }
 
 
-    void FixedUpdate()
-    {   
-        if(Vector2.Distance(transform.position, target.position) > playerRangeDistance) {
-            rigid.velocity = new Vector2(nextMoveX, nextMoveY);
-        } else {
+    private void FixedUpdate() {   
+        DetectPlayer();
+    }
+
+    private void DetectPlayer() {
+        float distanceToPlayer = Vector2.Distance(transform.position, target.position);
+        if(distanceToPlayer > playerRangeDistance && isFollowingMode)
+            EnterWanderingMode();
+        else if(distanceToPlayer <= playerRangeDistance && !isFollowingMode)
+            EnterFollowingMode();
+    }
+
+    private IEnumerator KeepFollowingPlayer() {
+        while(isFollowingMode) {
             transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+            yield return null;
         }
     }
 
-    void Think()
-    {
-        nextMoveX = Random.Range(-1, 2);
-        nextMoveY = Random.Range(-1, 2);
+    private void EnterFollowingMode() {
+        isFollowingMode = true;
+        CancelInvoke("Wander");
+        StartCoroutine("KeepFollowingPlayer");
+    }
 
-        Invoke("Think", loading);
+    private void EnterWanderingMode() {
+        isFollowingMode = false;
+        Invoke("Wander", 0);
+    }
+
+    private void Wander() {
+        float nextMoveX = Random.Range(-1, 2);
+        float nextMoveY = Random.Range(-1, 2);
+        rigid.velocity = new Vector2(nextMoveX, nextMoveY);
+        Invoke("Wander", loading);
     }
 }

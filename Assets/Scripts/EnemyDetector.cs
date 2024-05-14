@@ -7,7 +7,7 @@ public class EnemyDetector : MonoBehaviour {
     private float attackRadius;
 
     private void Start() {
-        //enemies = transform.parent.GetChild(1).GetComponent<SpawnManager>().EnemyList;
+        enemies = GameObject.FindGameObjectWithTag("Spawner").GetComponent<SpawnManager>().EnemyList;
         attackRadius = GetComponent<CircleCollider2D>().radius;
     }
 

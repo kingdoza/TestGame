@@ -2,29 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnManager : MonoBehaviour
-{
+public class SpawnManager : MonoBehaviour {
     public GameObject Enemy;
     private BoxCollider2D area;
-    private List<GameObject> EnmeyList = new List<GameObject>();
-    private int maximumEnemy = 5;
+    public List<Enemy> EnemyList = new List<Enemy>();
+    [SerializeField] private int maximumEnemy = 1;
     private Transform target;
     public float playerRangeDistance;
 
-    void Start()
-    {
+    void Start() {
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         area = GetComponent<BoxCollider2D>();
         StartCoroutine("Spawn", Random.Range(5, 11));
     }
 
-    private IEnumerator Spawn(float delayTime)
-    {
-        if(EnmeyList.Count < maximumEnemy) {
+    private IEnumerator Spawn(float delayTime) {
+        if(EnemyList.Count < maximumEnemy) {
             Vector3 spawnPos = GetRandomPosition();
-
             GameObject instance = Instantiate(Enemy, spawnPos, Quaternion.identity);
-            EnmeyList.Add(instance);
+            EnemyList.Add(instance.GetComponent<Enemy>());
         }
         area.enabled = false;
         yield return new WaitForSeconds(delayTime);
@@ -32,8 +28,7 @@ public class SpawnManager : MonoBehaviour
         StartCoroutine("Spawn", Random.Range(5, 11));
     }
 
-    private Vector2 GetRandomPosition()
-    {
+    private Vector2 GetRandomPosition() {
         Vector2 basePosition = transform.position; 
         Vector2 size = area.size;
         Vector2 spawnPos;            
