@@ -1,7 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
-using TreeEditor;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EnemyMove : MonoBehaviour {
     [SerializeField] private float loading = 1;
@@ -9,6 +8,7 @@ public class EnemyMove : MonoBehaviour {
     [SerializeField] private float playerRangeDistance, speed;
     private Transform target;
     private bool isFollowingMode = false;
+    public UnityEvent<Enemy> dieEvent;
 
     private void Start() {
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
@@ -25,6 +25,10 @@ public class EnemyMove : MonoBehaviour {
     }
 
     private void DetectPlayer() {
+        if(target == null && isFollowingMode) {
+            EnterWanderingMode();
+            return;
+        }
         float distanceToPlayer = Vector2.Distance(transform.position, target.position);
         if(distanceToPlayer > playerRangeDistance && isFollowingMode)
             EnterWanderingMode();

@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Player : MonoBehaviour {
     private IEnumerator movingRoutine;
@@ -8,11 +9,19 @@ public class Player : MonoBehaviour {
     private Gun gun;
     private EnemyDetector enemyDetector;
     private bool isControllable = true;
+    [HideInInspector] public UnityEvent dieEvent;
 
-    private void Start() {
+    private void Awake() {
         gun = GetComponent<Gun>();
         enemyDetector = transform.GetChild(0).gameObject.GetComponent<EnemyDetector>();
         movingRoutine = MoveTo(transform.position);
+    }
+
+    public void Active() {
+        gameObject.SetActive(true);
+        StopAllCoroutines();
+        isControllable = true;
+        transform.position = Vector3.zero;
     }
 
     private void Update() {
@@ -53,8 +62,8 @@ public class Player : MonoBehaviour {
         --life;
         StartCoroutine(RunawayFrom(attackerPos));   //맞으면 반대방향으로 잠깐 도망감
         if(life <= 0) {
-            Destroy(gameObject);
-            //게임 종료
+            gameObject.SetActive(false);
+            dieEvent?.Invoke();
         }
     }
 
@@ -62,8 +71,8 @@ public class Player : MonoBehaviour {
         StopCoroutine(movingRoutine);
         isControllable = false;
         Vector2 runawayDir = (transform.position - attackerPos.position).normalized;
-        Vector2 runawayDestination = (Vector2)transform.position + 4 * runawayDir;
-        float runawayDuration = 0.8f;
+        Vector2 runawayDestination = (Vector2)transform.position + 3 * runawayDir;
+        float runawayDuration = 0.5f;
         const float RunawaySpeed = 5f;
         while(runawayDuration > 0) {
             transform.position = Vector2.Lerp(transform.position, runawayDestination, RunawaySpeed * Time.deltaTime);

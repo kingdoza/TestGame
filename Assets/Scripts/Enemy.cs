@@ -1,25 +1,22 @@
 using System.Collections;
-using System.Collections.Generic;
-using TreeEditor;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Enemy : MonoBehaviour {
-    [SerializeField] private float loading = 1;
-    private Rigidbody2D rigid;
-    private SpriteRenderer sprite;
     [SerializeField] private float playerRangeDistance, speed;
     private Transform target;
     private bool isFollowingMode = false;
     [SerializeField] private int health;
+    [HideInInspector] public UnityEvent dieEvent;
+    private SpawnManager enemySpawner;
+    private IEnumerator followingRoutine;
 
-    private void Start() {
-        target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-    }
 
     private void Awake() {
-        sprite = GetComponent<SpriteRenderer>();
-        rigid = GetComponent<Rigidbody2D>();
-        Invoke("Wander", loading);
+        enemySpawner = FindObjectOfType<SpawnManager>();
+        target = GameManager.Instance.Player.transform;
+        const float IntialDelayTime = 1f;
+        Invoke("Wander", IntialDelayTime);
     }
 
 
@@ -28,6 +25,8 @@ public class Enemy : MonoBehaviour {
     }
 
     private void DetectPlayer() {
+        if(!GameManager.Instance.IsGame)
+            return;
         float distanceToPlayer = Vector2.Distance(transform.position, target.position);
         if(distanceToPlayer > playerRangeDistance && isFollowingMode)
             EnterWanderingMode();
@@ -36,31 +35,35 @@ public class Enemy : MonoBehaviour {
     }
 
     private IEnumerator KeepFollowingPlayer() {
-        while(isFollowingMode) {
+        while(GameManager.Instance.IsGame) {
             transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
             yield return null;
         }
+        EnterWanderingMode();
     }
 
     private void EnterFollowingMode() {
-        sprite.color = Color.red;
+        GetComponent<SpriteRenderer>().color = Color.red;
+        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         isFollowingMode = true;
-        rigid.velocity = Vector2.zero;
         CancelInvoke("Wander");
-        StartCoroutine("KeepFollowingPlayer");
+        followingRoutine = KeepFollowingPlayer();
+        StartCoroutine(followingRoutine);
     }
 
     private void EnterWanderingMode() {
-        sprite.color = Color.white;
+        GetComponent<SpriteRenderer>().color = Color.white;
         isFollowingMode = false;
+        StopCoroutine(followingRoutine);
         Wander();
     }
 
     private void Wander() {
         float nextMoveX = Random.Range(-1, 2);
         float nextMoveY = Random.Range(-1, 2);
-        rigid.velocity = new Vector2(nextMoveX, nextMoveY);
-        Invoke("Wander", loading);
+        GetComponent<Rigidbody2D>().velocity = new Vector2(nextMoveX, nextMoveY);
+        const float WanderingDuration = 1f;
+        Invoke("Wander", WanderingDuration);
     }
 
     public void Hit() {
@@ -70,6 +73,8 @@ public class Enemy : MonoBehaviour {
     }
 
     private void Die() {
+        dieEvent.Invoke();
+        enemySpawner.RemoveEnemy(this);
         Destroy(gameObject);
     }
 

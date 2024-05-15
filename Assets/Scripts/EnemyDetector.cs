@@ -1,9 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyDetector : MonoBehaviour {
-    [SerializeField] private List<Enemy> enemies;
+    [SerializeField] private IReadOnlyList<Enemy> enemies;
     [SerializeField] private float attackRadius;
 
     private void Start() {
