@@ -3,24 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour {
-    public GameObject Enemy;
+    [SerializeField] private GameObject Enemy;
     private BoxCollider2D area;
-    public List<Enemy> EnemyList = new List<Enemy>();
+    private List<Enemy> enemyList = new List<Enemy>();
+    public IReadOnlyList<Enemy> EnemyList => enemyList; //읽기전용, 변경불가
     [SerializeField] private int maximumEnemy = 1;
     private Transform target;
-    public float playerRangeDistance;
+    [SerializeField] private float minDistanceFromPlayer;
 
-    void Start() {
-        target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+    private void Awake() {
+        target = GameManager.Instance.Player.transform;
         area = GetComponent<BoxCollider2D>();
+    }
+
+    public void StartSpawning() {
         StartCoroutine("Spawn", Random.Range(5, 11));
     }
 
+    public void StopSpawning() {
+        StopAllCoroutines();
+    }
+
     private IEnumerator Spawn(float delayTime) {
-        if(EnemyList.Count < maximumEnemy) {
+        if(enemyList.Count < maximumEnemy) {
             Vector3 spawnPos = GetRandomPosition();
             GameObject instance = Instantiate(Enemy, spawnPos, Quaternion.identity);
-            EnemyList.Add(instance.GetComponent<Enemy>());
+            Enemy enemy = instance.GetComponent<Enemy>();
+            enemyList.Add(enemy);
         }
         area.enabled = false;
         yield return new WaitForSeconds(delayTime);
@@ -38,9 +47,19 @@ public class SpawnManager : MonoBehaviour {
             float posY = basePosition.y + Random.Range(-size.y / 2f, size.y / 2f);
 
             spawnPos = new Vector2(posX, posY);
-        } while(Vector2.Distance(spawnPos, target.position) < playerRangeDistance);
+        } while(Vector2.Distance(spawnPos, target.position) < minDistanceFromPlayer);
 
         return spawnPos;
     }
 
+    public void RemoveEnemy(Enemy enemy) {
+        enemyList.Remove(enemy);
+    }
+
+    public void ClearEnemies() {
+        for(int i = 0; i < enemyList.Count; i++) {
+            Destroy(enemyList[i].gameObject);
+            enemyList.RemoveAt(i);
+        }
+    }
 }
