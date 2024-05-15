@@ -29,7 +29,7 @@ public class Bullet : MonoBehaviour {
 
     private void Strike(Enemy _target) {
         if(_target != null) {
-            //_target.Hit();  //Enemy 코드에서 처리
+            _target.Hit();  //Enemy 코드에서 처리
             Destroy(gameObject);
         }
     }
