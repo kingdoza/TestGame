@@ -1,8 +1,13 @@
 {
   "dependencies": {
+<<<<<<< HEAD
     "com.unity.ide.visualstudio": "2.0.22",
     "com.unity.ide.vscode": "1.2.5",
     "com.unity.visualscripting": "1.9.4",
+=======
+    "com.unity.textmeshpro": "3.0.8",
+    "com.unity.ugui": "1.0.0",
+>>>>>>> abf1840c72c087ad4fc65dd038ef6ff8ca04fa95
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
