@@ -930,7 +930,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2.2
-  life: 1
+  life: 3
   dieEvent:
     m_PersistentCalls:
       m_Calls: []

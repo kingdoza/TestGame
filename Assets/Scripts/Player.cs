@@ -60,22 +60,27 @@ public class Player : MonoBehaviour {
 
     public void HitFrom(Transform attackerPos) {
         --life;
-        StartCoroutine(RunawayFrom(attackerPos));   //맞으면 반대방향으로 잠깐 도망감
+        RunawayFrom(attackerPos);   //맞으면 반대방향으로 잠깐 도망감
         if(life <= 0) {
             gameObject.SetActive(false);
             dieEvent?.Invoke();
         }
     }
 
-    private IEnumerator RunawayFrom(Transform attackerPos) {
+    private void RunawayFrom(Transform attackerPos) {
         StopCoroutine(movingRoutine);
-        isControllable = false;
         Vector2 runawayDir = (transform.position - attackerPos.position).normalized;
-        Vector2 runawayDestination = (Vector2)transform.position + 3 * runawayDir;
+        const float RunawayPower = 3f;
+        Vector2 runawayDestination = (Vector2)transform.position + RunawayPower * runawayDir;
+        StartCoroutine(KeepRunningTo(runawayDestination));
+    }
+
+    private IEnumerator KeepRunningTo(Vector2 escapePos) {
         float runawayDuration = 0.5f;
         const float RunawaySpeed = 5f;
+        isControllable = false;
         while(runawayDuration > 0) {
-            transform.position = Vector2.Lerp(transform.position, runawayDestination, RunawaySpeed * Time.deltaTime);
+            transform.position = Vector2.Lerp(transform.position, escapePos, RunawaySpeed * Time.deltaTime);
             runawayDuration -= Time.deltaTime;
             yield return null;
         }
