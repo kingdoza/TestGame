@@ -377,7 +377,7 @@ GameObject:
   - component: {fileID: 206690122}
   - component: {fileID: 206690121}
   m_Layer: 5
-  m_Name: GameOver
+  m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -660,7 +660,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1342566091}
-  gameOver: {fileID: 206690121}
+  uI: {fileID: 206690121}
 --- !u!4 &310379485
 Transform:
   m_ObjectHideFlags: 0

@@ -4,11 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class GameOver : MonoBehaviour {
-    private void Awake() {
-        gameObject.SetActive(false); 
+public class UI : MonoBehaviour {
+    void Awake() {
+        if(SceneManager.GetActiveScene().name == "sunguk") {
+            gameObject.SetActive(false);
+        }
     }
-
     public void Show() {
         gameObject.SetActive(true);
     }
@@ -21,4 +22,7 @@ public class GameOver : MonoBehaviour {
         Application.Quit(); //빌드해서 응용프로그램으로 실행하면 작동함
     }
 
+    public void SceneChange() {
+        SceneManager.LoadScene("sunguk");
+    } 
 }
