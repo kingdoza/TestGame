@@ -17,7 +17,7 @@ public class SpawnManager : MonoBehaviour {
     }
 
     public void StartSpawning() {
-        StartCoroutine("Spawn", Random.Range(5, 11));
+        StartCoroutine("Spawn", Random.Range(2, 6));
     }
 
     public void StopSpawning() {
