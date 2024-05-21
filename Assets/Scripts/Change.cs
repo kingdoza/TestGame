@@ -3,6 +3,6 @@ using UnityEngine.SceneManagement;
 
 public class Change : MonoBehaviour {
     public void SceneChange() {
-        SceneManager.LoadScene("main");
+        SceneManager.LoadScene("sunguk");
     }    
 }

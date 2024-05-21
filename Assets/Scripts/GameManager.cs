@@ -6,6 +6,7 @@ public class GameManager : Singleton<GameManager> {
     private bool isGame = true;
     public bool IsGame => isGame;
     private SpawnManager enemySpawner;
+    public GameOver gameOver;
 
     private void Awake() {
         enemySpawner = FindObjectOfType<SpawnManager>();
@@ -37,5 +38,6 @@ public class GameManager : Singleton<GameManager> {
 
     private void OnPlayerDie() {
         GameEnd();
+        gameOver.Show();
     }
 }
