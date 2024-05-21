@@ -1,20 +1,23 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
     private IEnumerator movingRoutine;
     [SerializeField] private float moveSpeed;
-    [SerializeField] private int life = 5;
+    [SerializeField] private float MaxHp = 5f, CurHp = 5f;
     private Gun gun;
     private EnemyDetector enemyDetector;
     private bool isControllable = true;
+    [SerializeField] private Slider hpBar;
     [HideInInspector] public UnityEvent dieEvent;
 
     private void Awake() {
         gun = GetComponent<Gun>();
         enemyDetector = transform.GetChild(0).gameObject.GetComponent<EnemyDetector>();
         movingRoutine = MoveTo(transform.position);
+        hpBar.value = (float)CurHp / (float)MaxHp;
     }
 
     public void Active() {
@@ -27,6 +30,7 @@ public class Player : MonoBehaviour {
     private void Update() {
         CheckMoveInput();
         CheckAttackInput();
+        UpdateHP();
     }
 
     private void CheckMoveInput() {
@@ -59,9 +63,10 @@ public class Player : MonoBehaviour {
     }
 
     public void HitFrom(Transform attackerPos) {
-        --life;
+        --CurHp;
         RunawayFrom(attackerPos);   //맞으면 반대방향으로 잠깐 도망감
-        if(life <= 0) {
+        if(CurHp <= 0) {
+            UpdateHP();
             gameObject.SetActive(false);
             dieEvent?.Invoke();
         }
@@ -85,5 +90,10 @@ public class Player : MonoBehaviour {
             yield return null;
         }
         isControllable = true;
+    }
+
+    private void UpdateHP()
+    {
+        hpBar.value = Mathf.Lerp(hpBar.value, (float)CurHp / (float)MaxHp, Time.deltaTime * 10);
     }
 }

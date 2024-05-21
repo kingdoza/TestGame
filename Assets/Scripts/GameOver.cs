@@ -6,18 +6,18 @@ using UnityEngine.SceneManagement;
 
 public class GameOver : MonoBehaviour {
     private void Awake() {
-        transform.gameObject.SetActive(false); 
+        gameObject.SetActive(false); 
     }
 
     public void Show() {
-        transform.gameObject.SetActive(true);
+        gameObject.SetActive(true);
     }
 
-    private void Retry() {
+    public void Retry() {
         SceneManager.LoadScene("sunguk"); 
     }
 
-    private void Quit() {
+    public void Quit() {
         Application.Quit(); //빌드해서 응용프로그램으로 실행하면 작동함
     }
 

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Change : MonoBehaviour {
+public class IntroToMain : MonoBehaviour {
     public void SceneChange() {
         SceneManager.LoadScene("sunguk");
     }    

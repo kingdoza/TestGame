@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4913487255940947615}
   m_Layer: 0
   m_Name: Zombie
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99,10 +99,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be49a89bb8af2e846b93a551cdbdb035, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loading: 1
   playerRangeDistance: 3
   speed: 1.5
   health: 15
+  dieEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!50 &4419688558722502649
 Rigidbody2D:
   serializedVersion: 4
