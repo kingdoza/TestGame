@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour {
     private IEnumerator movingRoutine;
     [SerializeField] private float moveSpeed;
-    [SerializeField] private float MaxHp = 5f, CurHp = 5f;
+    public float MaxHp = 5f, CurHp = 5f;
     private Gun gun;
     private EnemyDetector enemyDetector;
     private bool isControllable = true;
@@ -66,7 +66,6 @@ public class Player : MonoBehaviour {
         --CurHp;
         RunawayFrom(attackerPos);   //맞으면 반대방향으로 잠깐 도망감
         if(CurHp <= 0) {
-            UpdateHP();
             gameObject.SetActive(false);
             dieEvent?.Invoke();
         }
