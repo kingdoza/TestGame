@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class UI : MonoBehaviour {
-    void Awake() {
-        if(SceneManager.GetActiveScene().name == "sunguk") {
+    private void Awake() {
+        if(SceneManager.GetActiveScene().name == "main") {
             gameObject.SetActive(false);
         }
     }
@@ -15,7 +12,7 @@ public class UI : MonoBehaviour {
     }
 
     public void Retry() {
-        SceneManager.LoadScene("sunguk"); 
+        SceneManager.LoadScene("main"); 
     }
 
     public void Quit() {
@@ -23,6 +20,6 @@ public class UI : MonoBehaviour {
     }
 
     public void SceneChange() {
-        SceneManager.LoadScene("sunguk");
+        SceneManager.LoadScene("main");
     } 
 }

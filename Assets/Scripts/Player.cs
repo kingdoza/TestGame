@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour {
     private IEnumerator movingRoutine;
     [SerializeField] private float moveSpeed;
-    [SerializeField] private float MaxHp = 5f, CurHp = 5f;
+    [SerializeField] private int MaxHp = 5, CurHp = 5;
     private Gun gun;
     private EnemyDetector enemyDetector;
     private bool isControllable = true;
@@ -21,6 +21,7 @@ public class Player : MonoBehaviour {
     }
 
     public void Active() {
+        CurHp = MaxHp;
         gameObject.SetActive(true);
         StopAllCoroutines();
         isControllable = true;
@@ -92,8 +93,7 @@ public class Player : MonoBehaviour {
         isControllable = true;
     }
 
-    private void UpdateHP()
-    {
+    private void UpdateHP() {
         hpBar.value = Mathf.Lerp(hpBar.value, (float)CurHp / (float)MaxHp, Time.deltaTime * 10);
     }
 }

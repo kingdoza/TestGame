@@ -15,6 +15,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Intro.unity
     guid: dc26dcdc192340140979eb81db0af068
   - enabled: 1
-    path: Assets/Scenes/main.unity
+    path: Assets/Scenes/dowon.unity
     guid: e7eebebc8810527468d6b9123a042fdf
   m_configObjects: {}

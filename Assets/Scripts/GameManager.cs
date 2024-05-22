@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager> {
     [SerializeField] private Player player;
@@ -6,7 +7,7 @@ public class GameManager : Singleton<GameManager> {
     private bool isGame = true;
     public bool IsGame => isGame;
     private SpawnManager enemySpawner;
-    public UI uI;
+    [SerializeField] private UI uI;
 
     private void Awake() {
         enemySpawner = FindObjectOfType<SpawnManager>();
@@ -19,17 +20,19 @@ public class GameManager : Singleton<GameManager> {
 
     private void Update() {
         if(Input.GetKeyDown(KeyCode.Escape)) {
-            GameStart();
+            Retry();
         }
     }
 
-    private void GameStart() {
+    public void GameStart() {
         isGame = true;
         enemySpawner.ClearEnemies();
         enemySpawner.StopSpawning();
         enemySpawner.StartSpawning();
         player.Active();
     }
+
+    public void Retry() => SceneManager.LoadScene("main"); 
 
     private void GameEnd() {
         isGame = false;
