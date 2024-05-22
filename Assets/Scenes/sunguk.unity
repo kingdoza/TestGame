@@ -2535,12 +2535,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 572c3da66ab6e25468d0947552894f60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-<<<<<<< HEAD
   hpBar: {fileID: 2137707841}
   heightGap: 1
-=======
-  player: {fileID: 1342566091}
->>>>>>> 7d7bef7305303eb1b20713c5c683692462817656
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

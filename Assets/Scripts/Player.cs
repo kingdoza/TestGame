@@ -6,11 +6,7 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour {
     private IEnumerator movingRoutine;
     [SerializeField] private float moveSpeed;
-<<<<<<< HEAD
     [SerializeField] private int MaxHp = 5, CurHp = 5;
-=======
-    public float MaxHp = 5f, CurHp = 5f;
->>>>>>> 7d7bef7305303eb1b20713c5c683692462817656
     private Gun gun;
     private EnemyDetector enemyDetector;
     private bool isControllable = true;
