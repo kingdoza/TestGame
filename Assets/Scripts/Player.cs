@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour {
     private IEnumerator movingRoutine;
     [SerializeField] private float moveSpeed;
-    [SerializeField] private int MaxHp = 5, CurHp = 5;
+    [SerializeField] public int maxHp = 5, curHp = 5;
     private Gun gun;
     private EnemyDetector enemyDetector;
     private bool isControllable = true;
@@ -17,11 +17,11 @@ public class Player : MonoBehaviour {
         gun = GetComponent<Gun>();
         enemyDetector = transform.GetChild(0).gameObject.GetComponent<EnemyDetector>();
         movingRoutine = MoveTo(transform.position);
-        hpBar.value = (float)CurHp / (float)MaxHp;
+        hpBar.value = (float)curHp / (float)maxHp;
     }
 
     public void Active() {
-        CurHp = MaxHp;
+        curHp = maxHp;
         gameObject.SetActive(true);
         StopAllCoroutines();
         isControllable = true;
@@ -64,9 +64,9 @@ public class Player : MonoBehaviour {
     }
 
     public void HitFrom(Transform attackerPos) {
-        --CurHp;
+        --curHp;
         RunawayFrom(attackerPos);   //맞으면 반대방향으로 잠깐 도망감
-        if(CurHp <= 0) {
+        if(curHp <= 0f) {
             gameObject.SetActive(false);
             dieEvent?.Invoke();
         }
@@ -93,6 +93,6 @@ public class Player : MonoBehaviour {
     }
 
     private void UpdateHP() {
-        hpBar.value = Mathf.Lerp(hpBar.value, (float)CurHp / (float)MaxHp, Time.deltaTime * 10);
+        hpBar.value = Mathf.Lerp(hpBar.value, (float)curHp / (float)maxHp, Time.deltaTime * 10);
     }
 }
