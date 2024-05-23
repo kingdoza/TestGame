@@ -2034,8 +2034,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2.2
-  MaxHp: 5
-  CurHp: 5
+  maxHp: 5
+  curHp: 5
   hpBar: {fileID: 2137707841}
   dieEvent:
     m_PersistentCalls:
@@ -2512,7 +2512,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 206690122}
+  m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 1184656646}
   m_HandleRect: {fileID: 0}
   m_Direction: 0
@@ -2537,6 +2537,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpBar: {fileID: 2137707841}
   heightGap: 1
+  player: {fileID: 1342566091}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

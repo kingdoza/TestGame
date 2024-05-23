@@ -4,9 +4,10 @@ using UnityEngine.UI;
 public class HpBar : MonoBehaviour {
     [SerializeField] private Slider hpBar;
     [SerializeField] private float heightGap;
+    [SerializeField] private Player player;
 
     private void Update() {
-        if(hpBar.value <= 0.2f) {
+        if(player.curHp <= 0f) {
             gameObject.SetActive(false);
         }
         FollowPlayer();
