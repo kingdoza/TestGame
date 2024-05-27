@@ -12,9 +12,11 @@ public class HpBar_test : MonoBehaviour
     [SerializeField] private float height = 1.2f;
     [SerializeField] private Enemy enemy;
     
-    public void MakeHpBar()
+    public Slider MakeHpBarSlider()
     {
         hpBar = Instantiate(prfHpBar, canvas.transform).GetComponent<RectTransform>();
+
+        return hpBar.gameObject.GetComponent<Slider>();
     }
 
     private void Update()

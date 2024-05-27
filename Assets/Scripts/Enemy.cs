@@ -14,16 +14,13 @@ public class Enemy : MonoBehaviour {
 
     private Slider slider;
 
-
     private void Awake() {
         enemySpawner = FindObjectOfType<SpawnManager>();
         target = GameManager.Instance.Player.transform;
         const float IntialDelayTime = 1f;
         Invoke("Wander", IntialDelayTime);
 
-        HpBar_test hpController = GetComponent<HpBar_test>();
-        hpController.MakeHpBar();
-        slider = hpController.prfHpBar;
+        slider = GetComponent<HpBar_test>().MakeHpBarSlider();
     }
 
 
