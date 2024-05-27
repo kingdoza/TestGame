@@ -1,15 +1,18 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour {
     [SerializeField] private float playerRangeDistance, speed;
     private Transform target;
     private bool isFollowingMode = false;
-    [SerializeField] private int health;
+    [SerializeField] private int health, healthMax;
     [HideInInspector] public UnityEvent dieEvent;
     private SpawnManager enemySpawner;
     private IEnumerator followingRoutine;
+
+    private Slider slider;
 
 
     private void Awake() {
@@ -17,11 +20,16 @@ public class Enemy : MonoBehaviour {
         target = GameManager.Instance.Player.transform;
         const float IntialDelayTime = 1f;
         Invoke("Wander", IntialDelayTime);
+
+        HpBar_test hpController = GetComponent<HpBar_test>();
+        hpController.MakeHpBar();
+        slider = hpController.prfHpBar;
     }
 
 
     private void FixedUpdate() {  
         DetectPlayer();
+        UpdateHP();
     }
 
     private void DetectPlayer() {
@@ -83,5 +91,9 @@ public class Enemy : MonoBehaviour {
             Player player = other.gameObject.GetComponent<Player>();
             player.HitFrom(transform);
         }
+    }
+
+    private void UpdateHP() {
+        slider.value = Mathf.Lerp(slider.value, (float)health / (float)healthMax, Time.deltaTime * 10);
     }
 }
