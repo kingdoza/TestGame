@@ -12,7 +12,7 @@ public class HpBar_test : MonoBehaviour
     [SerializeField] private float height = 1.2f;
     [SerializeField] private Enemy enemy;
     
-    private void Start()
+    public void MakeHpBar()
     {
         hpBar = Instantiate(prfHpBar, canvas.transform).GetComponent<RectTransform>();
     }
