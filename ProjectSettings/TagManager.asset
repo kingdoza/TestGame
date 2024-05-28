@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Spawner
   - Enemy
+  - HpBar
   layers:
   - Default
   - TransparentFX
@@ -13,7 +14,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - HpBar
   - 
   - 
   - 
@@ -45,4 +46,10 @@ TagManager:
     locked: 0
   - name: Canvas
     uniqueID: 1723542819
+    locked: 0
+  - name: HpBar
+    uniqueID: 4157540245
+    locked: 0
+  - name: UI
+    uniqueID: 1345365419
     locked: 0

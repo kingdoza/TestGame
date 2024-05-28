@@ -3,25 +3,22 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class Player : MonoBehaviour {
+public class Player : Character {
     private IEnumerator movingRoutine;
     [SerializeField] private float moveSpeed;
-    [SerializeField] public int maxHp = 5, curHp = 5;
     private Gun gun;
     private EnemyDetector enemyDetector;
     private bool isControllable = true;
-    [SerializeField] private Slider hpBar;
     [HideInInspector] public UnityEvent dieEvent;
 
-    private void Awake() {
+    private new void Awake() {
+        base.Awake();
         gun = GetComponent<Gun>();
         enemyDetector = transform.GetChild(0).gameObject.GetComponent<EnemyDetector>();
         movingRoutine = MoveTo(transform.position);
-        hpBar.value = (float)curHp / (float)maxHp;
     }
 
     public void Active() {
-        curHp = maxHp;
         gameObject.SetActive(true);
         StopAllCoroutines();
         isControllable = true;
@@ -31,7 +28,6 @@ public class Player : MonoBehaviour {
     private void Update() {
         CheckMoveInput();
         CheckAttackInput();
-        UpdateHP();
     }
 
     private void CheckMoveInput() {
@@ -63,13 +59,14 @@ public class Player : MonoBehaviour {
         return Camera.main.ScreenToWorldPoint(mousePosition);
     }
 
-    public void HitFrom(Transform attackerPos) {
-        --curHp;
-        RunawayFrom(attackerPos);   //맞으면 반대방향으로 잠깐 도망감
-        if(curHp <= 0f) {
-            gameObject.SetActive(false);
-            dieEvent?.Invoke();
-        }
+    public new void TakeHit(Transform attacker) {
+        base.TakeHit();
+        RunawayFrom(attacker);   //맞으면 반대방향으로 잠깐 도망감
+    }
+
+    protected override void Die() {
+        base.Die();
+        dieEvent?.Invoke();
     }
 
     private void RunawayFrom(Transform attackerPos) {
@@ -90,9 +87,5 @@ public class Player : MonoBehaviour {
             yield return null;
         }
         isControllable = true;
-    }
-
-    private void UpdateHP() {
-        hpBar.value = Mathf.Lerp(hpBar.value, (float)curHp / (float)maxHp, Time.deltaTime * 10);
     }
 }

@@ -10,7 +10,6 @@ public class HpBar_test : MonoBehaviour
     public GameObject canvas;
     RectTransform hpBar;
     [SerializeField] private float height = 1.2f;
-    [SerializeField] private Enemy enemy;
     
     public Slider MakeHpBarSlider()
     {

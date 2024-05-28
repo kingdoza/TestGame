@@ -1,32 +1,26 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
-public class Enemy : MonoBehaviour {
+public class Enemy : Character {
     [SerializeField] private float playerRangeDistance, speed;
     private Transform target;
     private bool isFollowingMode = false;
-    [SerializeField] private int health, healthMax;
     [HideInInspector] public UnityEvent dieEvent;
     private SpawnManager enemySpawner;
     private IEnumerator followingRoutine;
 
-    private Slider slider;
-
-    private void Awake() {
+    private new void Awake() {
+        base.Awake();
         enemySpawner = FindObjectOfType<SpawnManager>();
         target = GameManager.Instance.Player.transform;
         const float IntialDelayTime = 1f;
         Invoke("Wander", IntialDelayTime);
-
-        slider = GetComponent<HpBar_test>().MakeHpBarSlider();
     }
 
 
     private void FixedUpdate() {  
         DetectPlayer();
-        UpdateHP();
     }
 
     private void DetectPlayer() {
@@ -71,26 +65,16 @@ public class Enemy : MonoBehaviour {
         Invoke("Wander", WanderingDuration);
     }
 
-    public void Hit() {
-        --health;
-        if(health <= 0)
-            Die();
-    }
-
-    private void Die() {
+    private new void Die() {
+        base.Die();
         dieEvent.Invoke();
         enemySpawner.RemoveEnemy(this);
-        Destroy(gameObject);
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
         if(other.gameObject.tag == "Player") {
             Player player = other.gameObject.GetComponent<Player>();
-            player.HitFrom(transform);
+            player.TakeHit(transform);
         }
-    }
-
-    private void UpdateHP() {
-        slider.value = Mathf.Lerp(slider.value, (float)health / (float)healthMax, Time.deltaTime * 10);
     }
 }
